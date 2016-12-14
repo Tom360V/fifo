@@ -4,6 +4,9 @@
 
 https://travis-ci.org/Tom360V/fifo
 
+## Install check (test environment)
+https://libcheck.github.io/check/web/install.html
+
 ## Build instructions
 
     mkdir -p bld
