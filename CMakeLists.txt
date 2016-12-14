@@ -12,9 +12,18 @@ include_directories("inc")
 #Add sources
 set(srcs src/fifo.c)
 
-if (TEST)
-  list(APPEND srcs test/test.c)
-endif()
 
-
+#Add Library
 add_library(FIFO SHARED ${srcs})
+
+#######################################
+
+# if test
+#if (TEST)
+  set(testsrcs test/test.c)
+  add_executable(fifo_test ${testsrcs})
+  target_link_libraries(fifo_test FIFO)
+#endif()
+
+
+#target_sources(fifo_test)
