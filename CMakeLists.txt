@@ -18,7 +18,6 @@ add_library(FIFO SHARED ${srcs})
 
 #######################################
 
-# if test
 #if (TEST)
   set(testsrcs test/test.c)
   add_executable(fifo_test ${testsrcs})

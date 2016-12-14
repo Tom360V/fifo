@@ -3,6 +3,8 @@
 #include "fifo.h"
 
 #define VALUE_LENGTH    (10)
+#define ARRAY_SIZE      (10)
+
 typedef struct
 {
     int index;
@@ -54,7 +56,7 @@ int main()
     //init
     FIFO_Init(&myFifo, myData, sizeof(myData[0]), sizeof(myData)/sizeof(myData[0]));
     printf("Free space %d\n", FIFO_FreeSpace(&myFifo));
-
+/*
     additem(&myFifo);
     additem(&myFifo);
     additem(&myFifo);
@@ -63,7 +65,17 @@ int main()
     getitem(&myFifo);
     getitem(&myFifo);
     getitem(&myFifo);
+*/
+    int idx;
+    for(idx=0; idx<ARRAY_SIZE+1; idx++)
+    {
+        additem(&myFifo);
+    }        
 
+    for(idx=0; idx<ARRAY_SIZE+1; idx++)
+    {
+        getitem(&myFifo);
+    }        
     
     return 0;
 }

@@ -68,7 +68,7 @@ int8_t FIFO_AddItem(fifo_t *pfifo, void *pItem)
         memcpy(p, pItem, pfifo->itemSize);
         pfifo->inFifo++;
 
-        retval = pfifo->idx_write;
+        retval = pfifo->idx_write+1;
         fifo_incIdx(pfifo, &pfifo->idx_write);
     }
     return retval;
@@ -87,7 +87,7 @@ int8_t FIFO_GetItem(fifo_t *pfifo, void *pItem)
         memcpy(pItem, p, pfifo->itemSize);
         pfifo->inFifo--;
 
-        retval = pfifo->idx_read;
+        retval = pfifo->idx_read+1;
         fifo_incIdx(pfifo, &pfifo->idx_read);
     }
 
