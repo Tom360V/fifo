@@ -20,6 +20,9 @@ add_library(FIFO SHARED ${srcs})
 
   #Search for check.h
   FIND_PATH(CHECK_INCLUDE_DIR NAMES check.h)
+  FIND_LIBRARY(CHECK_LIBRARY NAMES check)
+
+  message("*** Check path:" ${CHECK_LIBRARY})
   message("*** Check path:" ${CHECK_INCLUDE_DIR})
   include_directories(${CHECK_INCLUDE_DIR})
 
@@ -29,11 +32,10 @@ add_library(FIFO SHARED ${srcs})
   #create executable
   add_executable(fifo_test ${testsrcs})
   target_link_libraries(fifo_test FIFO
-	libcheck.a
+	${CHECK_LIBRARY}
 	libm.so
 	librt.so
-	libpthread.so
-	libsubunit.so)
+	libpthread.so)
 
   add_test(FiFo fifo_test)
 #endif()
