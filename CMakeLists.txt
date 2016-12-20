@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8)
-
 project (fifo)
 
 #Add related projects
@@ -18,11 +17,16 @@ add_library(FIFO SHARED ${srcs})
 
 #if (TEST)
   enable_testing()
-  include_directories(${CHECK_INCLUDE_DIRS})
 
+  #Search for check.h
+  FIND_PATH(CHECK_INCLUDE_DIR NAMES check.h)
+  include_directories(${CHECK_INCLUDE_DIR})
+
+  #enter test sources here
   set(testsrcs test/test.c)
+  
+  #create executable
   add_executable(fifo_test ${testsrcs})
-
   target_link_libraries(fifo_test FIFO
 	libcheck.a
 	libm.so
