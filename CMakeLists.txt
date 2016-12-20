@@ -20,6 +20,7 @@ add_library(FIFO SHARED ${srcs})
 
   #Search for check.h
   FIND_PATH(CHECK_INCLUDE_DIR NAMES check.h)
+  message("*** Check path:" ${CHECK_INCLUDE_DIR})
   include_directories(${CHECK_INCLUDE_DIR})
 
   #enter test sources here
