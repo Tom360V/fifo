@@ -15,7 +15,7 @@ typedef struct
 } data_t;
 
 
-void additem(fifo_t *pfifo)
+int8_t additem(fifo_t *pfifo)
 {
     static int idx = 0;
 
@@ -25,30 +25,15 @@ void additem(fifo_t *pfifo)
     memset(newData.value, 'a'+idx, VALUE_LENGTH);
     idx++;
 
-    if(0 < FIFO_AddItem(pfifo, &newData))
-    {
-        printf("WRITE: item added to fifo %d:%.10s\n", newData.index, newData.value);
-    }
-    else
-    {
-        printf("WRITE: FAILED\n");
-    }
-    printf("Free space %d\n", FIFO_FreeSpace(pfifo));
+    printf("Add item %d\n", 'a'+idx);
+    return FIFO_AddItem(pfifo, &newData);
 }
 
 
-void getitem(fifo_t *pfifo)
+int8_t getitem(fifo_t *pfifo)
 {
     data_t newData;
-    if(0 < FIFO_GetItem(pfifo, &newData))
-    {
-        printf("READ: %d::%.10s\n", newData.index, newData.value);
-    }
-    else
-    {
-        printf("READ: EMPTY\n");
-    }
-    printf("Free space %d\n", FIFO_FreeSpace(pfifo));
+    return FIFO_GetItem(pfifo, &newData);
 }
 
 START_TEST(test_fifo_test1)
@@ -64,24 +49,34 @@ START_TEST(test_fifo_test1)
     //Loop till there is only one space left in the fifo
     for(idx=0; idx<ARRAY_SIZE-1; idx++)
     {
-        additem(&myFifo);
+        ck_assert(additem(&myFifo) >= 0);
     }        
-    ck_assert(FIFO_FreeSpace(&myFifo) == 1);
+    ck_assert_int_eq(FIFO_FreeSpace(&myFifo), 1);
 
     // get the last free space in the fifo
-//    ck_assert(additem(&myFifo >= 0);
-    additem(&myFifo);
-    ck_assert(FIFO_FreeSpace(&myFifo) == 0);
+    ck_assert(additem(&myFifo) >= 0);
+    ck_assert_int_eq(FIFO_FreeSpace(&myFifo), 0);
 
     // try to get one, more item from the queue, should fail
-    additem(&myFifo);
-    ck_assert(FIFO_FreeSpace(&myFifo) == 0);
+    ck_assert_int_eq(additem(&myFifo), -1);
+    ck_assert_int_eq(FIFO_FreeSpace(&myFifo), 0);
 
-    for(idx=0; idx<ARRAY_SIZE+1; idx++)
+    
+
+    //Loop till there is one item left in the fifo
+    for(idx=0; idx<ARRAY_SIZE-1; idx++)
     {
-        getitem(&myFifo);
+        ck_assert(getitem(&myFifo) >= 0);
     }
-   ck_assert(1 == 1);
+    ck_assert_int_eq(FIFO_FreeSpace(&myFifo), ARRAY_SIZE-1);
+
+    //Get last item
+    ck_assert(getitem(&myFifo) >= 0);
+    ck_assert_int_eq(FIFO_FreeSpace(&myFifo), ARRAY_SIZE);
+
+    //Fifo empty, try to get one more item
+    ck_assert_int_eq(getitem(&myFifo), -1);
+    ck_assert_int_eq(FIFO_FreeSpace(&myFifo), ARRAY_SIZE);
 }
 END_TEST
 
@@ -94,20 +89,20 @@ END_TEST
 
 int main(void)
 {
-	int number_failed;
-	Suite *suite   = suite_create("FIFO");
+    int number_failed;
+    Suite *suite   = suite_create("FIFO");
     TCase *tcase   = tcase_create("Case1");
 
-	/* ADD TESTS HERE*/
+    /* ADD TESTS HERE*/
     tcase_add_test(tcase, test_fifo_test1);
     tcase_add_test(tcase, test_fifo_test2);
 
-	suite_add_tcase(suite, tcase);		//TODO: move aboud tcase_add_test!!!
+    suite_add_tcase(suite, tcase);      //TODO: move aboud tcase_add_test!!!
 
-	SRunner *runner = srunner_create(suite);
-	srunner_run_all(runner, CK_VERBOSE);
-	number_failed = srunner_ntests_failed(runner);
-	srunner_free(runner);
+    SRunner *runner = srunner_create(suite);
+    srunner_run_all(runner, CK_VERBOSE);
+    number_failed = srunner_ntests_failed(runner);
+    srunner_free(runner);
 
-	return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
