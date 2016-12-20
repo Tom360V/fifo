@@ -16,3 +16,4 @@ script:
   - cd bld
   - cmake ..
   - make
+  - make test
