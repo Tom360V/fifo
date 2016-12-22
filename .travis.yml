@@ -6,6 +6,7 @@ addons:
     packages:
       - cmake
       - check
+      - subunit
 
 compiler:
   - gcc

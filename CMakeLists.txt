@@ -17,4 +17,4 @@ set(srcs src/fifo.c)
 
 #Add Library
 add_library(FIFO SHARED ${srcs})
-add_test(TEST test/fifo_test)
+add_test(TEST_fifo test/test_fifo)
