@@ -10,12 +10,12 @@ include_directories(../inc)
 #Set required libraries
 find_library(LIBRARY_SUBUNIT NAMES subunit)
 
-set(MyLIBS check m rt pthread)
+set(MyLIBS check m rt pthread subunit)
 
-if(LIBRARY_SUBUNIT)
-  set(MyLIBS ${MyLIBS} ${LIBRARY_SUBUNIT})
-  message ("*** SUBUNIT FOUND ***")
-endif(LIBRARY_SUBUNIT)
+#if(LIBRARY_SUBUNIT)
+#  set(MyLIBS ${MyLIBS} ${LIBRARY_SUBUNIT})
+#  message ("*** SUBUNIT FOUND ***")
+#endif(LIBRARY_SUBUNIT)
 
 #foreach(x ${MyLIBS})
 #  message("*** MyLibs: " ${x})
