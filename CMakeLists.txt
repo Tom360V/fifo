@@ -8,4 +8,4 @@ include_directories("inc")
 set(srcs src/fifo.c)
 
 #Add Library
-add_library(FIFO SHARED ${srcs})
+add_library(fifo SHARED ${srcs})

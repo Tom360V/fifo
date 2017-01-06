@@ -34,7 +34,7 @@ endif(LIBRARY_SUBUNIT)
 
 #create executable
 add_executable(test_fifo test.c)
-target_link_libraries(test_fifo FIFO ${MyLIBS} )
+target_link_libraries(test_fifo fifo ${MyLIBS} )
 
 
 add_test(TEST_fifo test_fifo)
