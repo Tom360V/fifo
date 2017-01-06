@@ -1,11 +1,19 @@
 cmake_minimum_required(VERSION 2.8)
 project (Test_fifo)
 
+enable_testing()
+
+
 #Search for check.h
 find_path(INCLUDE_DIR_CHECK   NAMES check.h)
 
-include_directories(${INCLUDE_DIR_CHECK})
-include_directories(../inc)
+include_directories(
+    ${INCLUDE_DIR_CHECK}
+    ../inc)
+
+#Add HEAD project
+add_subdirectory(../ FUT)
+
 
 
 #Set required libraries
@@ -28,3 +36,5 @@ endif(LIBRARY_SUBUNIT)
 add_executable(test_fifo test.c)
 target_link_libraries(test_fifo FIFO ${MyLIBS} )
 
+
+add_test(TEST_fifo test_fifo)
